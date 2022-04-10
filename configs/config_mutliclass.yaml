@@ -1,0 +1,30 @@
+model:
+  mode: 'directed-multiclass'  # One of 'undirected', 'directed-multiclass', 'directed-topsort'
+  edge_model: "rnn"  # Edge-level model. Either "mlp" or "rnn"
+  GraphRNN:
+    embedding_size: 32
+    hidden_size: 64
+    num_layers: 4
+    edge_feature_len: 4  # Directed multiclass = 4 edge features
+  EdgeRNN:
+    embedding_size: 8
+    hidden_size: 16
+    num_layers: 4
+    edge_feature_len: 4  # Directed multiclass = 4 edge features
+
+data:
+  dataset: 'ego-directed-multiclass'
+  bfs: True
+  m: 25
+  train_split: 0.8
+
+train:
+  steps: 96000
+  batch_size: 32
+  lr: 0.003
+  lr_schedule_milestones: [2400, 3000]  # Milestones for the learning rate schedule
+  lr_schedule_gamma: 0.3  # Change rate for the learning rate schedule
+  print_iter: 100  # Print loss every X iterations
+  checkpoint_iter: 10000  # Save checkpoint every X iterations
+  checkpoint_dir: "./checkpoints"  # Checkpoint path relative to config file directory
+  log_dir: "./log"  # Save TensorBoard log data in this directory
